@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block 'title' %} Register {% endblock %}
+
+{% block 'content' %}
+
+<div class="container" xmlns="http://www.w3.org/1999/html">
+    <br>
+    {% if status == '0' %}
+        <div class="alert alert-success" role="alert">
+            Register realized with successful.
+        </div>
+    {% endif %}
+
+    {% if status == '1' %}
+        <div class="alert alert-danger" role="alert">
+            The fields <strong>name</strong> or <strong>email</strong> cannot be void.
+        </div>
+    {% endif %}
+
+    {% if status == '2' %}
+        <div class="alert alert-danger" role="alert">
+            The field <strong>password</strong> must have 8 characters at least.
+        </div>
+    {% endif %}
+
+    {% if status == '3' %}
+        <div class="alert alert-danger" role="alert">
+            This <strong>user</strong> already exist in the system.
+        </div>
+    {% endif %}
+
+    {% if status == '4' %}
+        <div class="alert alert-danger" role="alert">
+            <strong>ERROR IN THE SYSTEM.</strong>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md">
+            <h1>Register</h1>
+            <hr>
+            <form method="POST" action="{% url 'valid_register' %}">{% csrf_token %}
+                <label>Name</label>
+                <input name="name" class="form-control" type="text" placeholder="name...">
+                <br>
+                <label>E-mail</label>
+                <input name="email" class="form-control" type="text" placeholder="e-mail...">
+                <br>
+                <label>Password</label>
+                <input name="password" class="form-control" type="password" placeholder="password...">
+                <br>
+
+                <input class="btn btn-info btn-lg" type="submit" value="Send">
+                <a href="{% url 'login' %}" class="btn btn-warning btn-lg">Login</a>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+{% endblock %}
