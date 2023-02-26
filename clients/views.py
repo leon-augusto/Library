@@ -6,6 +6,8 @@ from hashlib import sha256
 
 
 def login(request):
+    if request.session.get('client'):
+        return redirect('/books/home')
     status = request.GET.get('status')
     return render(request, 'login.html', {'status': status})
 
@@ -27,12 +29,14 @@ def valid_login(request):
     return HttpResponse(f'{email} {password}')
 
 
-def leave(request):
+def logout(request):
     request.session.flush()
     return redirect('/auth/login/')
 
 
 def register(request):
+    if request.session.get('client'):
+        return redirect('/books/home')
     status = request.GET.get('status')
     return render(request, 'register.html', {'status': status})
 

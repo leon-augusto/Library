@@ -1,5 +1,15 @@
 from django.db import models
 from datetime import date
+from clients.models import Client
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.TextField()
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.name
 
 
 class Book(models.Model):
@@ -8,10 +18,19 @@ class Book(models.Model):
     cd_auth = models.CharField(max_length=30, blank=True, null=True)
     register_date = models.DateField(default=date.today)
     borrowed = models.BooleanField(default=False)
-    borrowed_to_name = models.CharField(max_length=30, blank=True, null=True)
-    borrowing_date = models.DateTimeField(blank=True, null=True)
-    borrowing_return = models.DateTimeField(blank=True, null=True)
-    duration = models.DateField(blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f'{self.name}, by {self.auth}'
+        return self.name
+
+
+class Borrowing(models.Model):
+    responsible = models.ForeignKey(Client, on_delete=models.DO_NOTHING, blank=True, null=True)
+    anonymous_responsible = models.CharField(max_length=30, blank=True, null=True)
+    borrowing_date = models.DateField(blank=True, null=True)
+    book_return = models.DateField(blank=True, null=True)
+    book = models.ForeignKey(Book, on_delete=models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        return f'{self.responsible} | {self.book}'

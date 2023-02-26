@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block 'content' %}
+
+    <div class="container">
+        <br>
+        <form action="#" method="POST">
+            <p>
+                <label>Name: </label>
+                <input class="form-control" type="text" value="{{ book.name }}">
+            </p>
+            <p>
+                <label>Auth: </label>
+                <input style="width: 40%;" class="form-control" type="text" value="{{ book.auth }}">
+            </p><p>
+                <label>Co-Auth: </label>
+                <input style="width: 40%;" class="form-control" type="text" value="{{ book.cd_auth }}">
+            </p>
+            <p>
+                <label>Date: </label>
+                <input style="width: 40%;" class="form-control" type="text" value="{{ book.register_date }}">
+            </p>
+
+            <label>Category:&nbsp;&nbsp;</label>
+            <select style="width=20%;" class="form-control" name="category">
+                {% for category in books_categories %}
+                    {% if book.category == category %}
+                        <option selected>{{ category }}</option>
+                    {% else %}
+                        <option>{{ category }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select><br>
+
+            {% if book.borrowed %}
+                <input style="transform: scale(1.5);" type="checkbox" name="borrowed" checked>
+            {% else %}
+                <input style="transform: scale(1.5);" type="checkbox" name="borrowed">
+            {% endif %}
+            <label for="borrowed">&nbsp;Borrowed</label>
+            <br><br>
+
+            <input type="submit" class="btn btn-success btn-lg" value="SAVE">
+        </form>
+
+        <hr>
+
+        <h2>History of Borrowing</h2>
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Responsible</th>
+                    <th scope="col">Borrowing</th>
+                    <th scope="col">Return</th>
+                    <th scope="col">Borrowed Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for borrowing in borrowings %}
+                <tr>
+                    {% if borrowing.responsible == None %}
+                        <th scope="row">{{ borrowing.anonymous_responsible }}</th>
+                    {% else %}
+                        <th scope="row">{{ borrowing.responsible }}</th>
+                    {% endif %}
+                    <td>{{ borrowing.borrowing_date }}</td>
+                    <td>{{ borrowing.book_return }}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
