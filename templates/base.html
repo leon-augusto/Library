@@ -10,7 +10,7 @@
     <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand" href="#">Navbar</a>
       {% if client_logged_in %}
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Register Book</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createBookModal">Register's Area</button>
         <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
       {% endif %}
     </nav>
@@ -18,29 +18,76 @@
     {% block 'content' %} {% endblock %}
 
     {% if client_logged_in %}
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="createBookModal" tabindex="-1" role="dialog" aria-labelledby="createBookModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Register Book</h5>
+              <h5 class="modal-title" id="createBookModalLabel">Register's Area</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
+              <button onclick="show_form(1)" class="btn btn-info">CATEGORY</button>
+              <button onclick="show_form(2)" class="btn btn-warning">BOOK</button>
+              <button onclick="show_form(3)" class="btn btn-primary">BORROWING</button>
+              <br><br>
+              <hr>
 
-              <form action="{% url 'register_book' %}" method="POST">{% csrf_token %}
-                <table>
-                  {{ form.as_table }}
-                </table>
-                <input type="submit" class="btn btn-success" value="Register">
-              </form>
+              <div style="display: none;" id="book">
+                <form action="{% url 'register_book' %}" method="POST">{% csrf_token %}
+                  <table>
+                    {{ form_book.as_table }}
+                  </table>
+                  <input type="submit" class="btn btn-success" value="Register">
+                </form>
+              </div>
+
+              <div style="display: none;" id="category">
+                <form action="{% url 'create_category' %}" method="POST">{% csrf_token %}
+                  <table>
+                    {{ form_category.as_table }}
+                  </table>
+                  <input type="submit" class="btn btn-success" value="Register">
+                </form>
+              </div>
+
+              <div style="display: none;" id="borrowing">
+                <form action="{% url 'create_borrowing' %}" method="POST">{% csrf_token %}
+                  <table>
+                    {{ form_borrowing.as_table }}
+                  </table>
+                  <input type="submit" class="btn btn-success" value="Register">
+                </form>
+              </div>
 
             </div>
           </div>
         </div>
       </div>
     {% endif %}
+
+    <script>
+      function show_form(c){
+        category = document.getElementById('category')
+        book = document.getElementById('book')
+        borrowing = document.getElementById('borrowing')
+
+        if(c == 1){
+          category.style.display = 'block';
+          book.style.display = 'none';
+          borrowing.style.display = 'none';
+        }else if(c == 2){
+          category.style.display = 'none';
+          book.style.display = 'block';
+          borrowing.style.display = 'none';
+        }else if(c == 3){
+          category.style.display = 'none';
+          book.style.display = 'none';
+          borrowing.style.display = 'block';
+        }
+      }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
