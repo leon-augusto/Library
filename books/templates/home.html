@@ -2,6 +2,22 @@
 
 {% block 'content' %}
 
+
+<div class="dropdown show" style="text-align: right;">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true">
+    Filters
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="#">All</a>
+    <a class="dropdown-item" href="#">Titles</a>
+    <a class="dropdown-item" href="#">Auths</a>
+    <a class="dropdown-item" href="#">Dispo</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item">Total of {{ books.count }} Books</a>
+  </div>
+</div>
+
 <div class="container">
   <div class="row">
     {% for book in  books %}

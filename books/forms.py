@@ -26,3 +26,7 @@ class BorrowingForm(forms.ModelForm):
     class Meta:
         model = Borrowing
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['available'].widget = forms.HiddenInput()

@@ -88,7 +88,7 @@
                     {% endif %}
                     <td>{{ borrowing.borrowing_date }}</td>
                     <td>{{ borrowing.book_return }}</td>
-                    <td>{{ borrowing.book_return|show_time:borrowing.borrowing_date }} days</td>
+                    <td>{{ borrowing.book_return|show_time:borrowing.borrowing_date }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

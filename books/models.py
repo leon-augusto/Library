@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date
+from datetime import date, datetime
 from clients.models import Client
 
 
@@ -26,11 +26,18 @@ class Book(models.Model):
 
 
 class Borrowing(models.Model):
+    choices = (
+        ('B', 'Bad'),
+        ('R', 'Regular'),
+        ('G', 'Good'),
+        ('A', 'Awesome')
+    )
     responsible = models.ForeignKey(Client, on_delete=models.DO_NOTHING, blank=True, null=True)
     anonymous_responsible = models.CharField(max_length=30, blank=True, null=True)
-    borrowing_date = models.DateField(blank=True, null=True)
-    book_return = models.DateField(blank=True, null=True)
+    borrowing_date = models.DateTimeField(default=datetime.now())
+    book_return = models.DateTimeField(blank=True, null=True)
     book = models.ForeignKey(Book, on_delete=models.DO_NOTHING)
+    available = models.CharField(max_length=1, choices=choices, blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.responsible} | {self.book}'
